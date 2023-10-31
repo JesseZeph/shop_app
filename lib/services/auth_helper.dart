@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:online_shop/models/auth/login_model.dart';
@@ -25,7 +26,8 @@ class AuthHelper {
     var response = await client.post(url,
         headers: requestHeaders, body: jsonEncode(model.toJson()));
 
-    ResponseModel loginResponse = ResponseModel.git remoteadd originfromJson(jsonDecode(response.body));
+    ResponseModel loginResponse =
+        ResponseModel.fromJson(jsonDecode(response.body));
 
     if (loginResponse.statusCode == 200) {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -54,7 +56,8 @@ class AuthHelper {
     var response = await client.post(url,
         headers: requestHeaders, body: jsonEncode(model.toJson()));
 
-    SignupResponse signupResponse = SignupResponse.fromJson(jsonDecode(response.body));
+    SignupResponse signupResponse =
+        SignupResponse.fromJson(jsonDecode(response.body));
 
     if (signupResponse.statusCode == 200) {
       return true;
@@ -66,7 +69,7 @@ class AuthHelper {
   static Future<ProfileRes> getProfile() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
-    log('User Token'+ token!);
+    log('User Token' + token!);
 
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -76,7 +79,7 @@ class AuthHelper {
     var url = Uri.http(Config.apiUrl, Config.profile);
     var response = await client.get(url, headers: requestHeaders);
 
-    log('User Profile'+response.body);
+    log('User Profile' + response.body);
     if (response.statusCode == 200) {
       var profile = profileResFromJson(response.body);
 
@@ -125,5 +128,4 @@ class AuthHelper {
       }
     }
   }
-
 }
