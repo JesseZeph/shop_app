@@ -219,20 +219,6 @@ class Helper {
   //   }
   // }
 
-  /*  Future<List<Sneakers>> getMaleSneakerss() async {
-    var url = Uri.http(Config.apiUrl, Config.sneakers);
-    var response = await client.get(url);
-
-    if (response.statusCode == 200) {
-      var maleList = sneakersFromJson(response.body);
-      var male =
-          maleList.where((element) => element.category == "Men's Running");
-      return male.toList();
-    } else {
-      throw Exception('Failed to load jobs list');
-    }
-  }
- */
 // Female
   Future<List<Sneakers>> getFemaleSneakers() async {
     var url = Uri.http(Config.apiUrl, Config.sneakers);
@@ -255,7 +241,6 @@ class Helper {
       throw Exception('Failed to load jobs list');
     }
   }
-
 // Kids
   Future<List<Sneakers>> getKidsSneakers() async {
     var headers = {

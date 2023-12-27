@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_shop/models/sneaker_model.dart';
 import 'package:online_shop/services/helper.dart';
 import 'package:online_shop/views/shared/appstyle.dart';
 import 'package:online_shop/views/shared/home_widget.dart';
@@ -32,6 +33,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _kids = Helper().getKidsSneakers();
   }
 
+
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +42,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     getkids();
     getFemale();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +89,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           text: "Electronics",
                         ),
                         Tab(
-                          text: "Funitures",
+                          text: "Furnitures",
                         ),
                         Tab(
                           text: "Vehicles",

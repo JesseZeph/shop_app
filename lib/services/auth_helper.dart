@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:online_shop/models/auth/login_model.dart';
@@ -8,7 +7,9 @@ import 'package:online_shop/models/auth/signup_model.dart';
 import 'package:online_shop/models/auth_response/login_res_model.dart';
 import 'package:online_shop/models/auth_response/profile_model.dart';
 import 'package:online_shop/models/orders/general_user.dart';
+import 'package:online_shop/models/orders/orders_req.dart';
 import 'package:online_shop/services/config.dart';
+import 'package:online_shop/util/g_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthHelper {
@@ -26,11 +27,12 @@ class AuthHelper {
     var response = await client.post(url,
         headers: requestHeaders, body: jsonEncode(model.toJson()));
 
-    ResponseModel loginResponse =
-        ResponseModel.fromJson(jsonDecode(response.body));
+    ResponseModel loginResponse = ResponseModel.fromJson(jsonDecode(response.body));
 
     if (loginResponse.statusCode == 200) {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      AppStorage.mybox.write(AppStorage.token, loginResponse.data.token);
 
       String userToken = loginResponse.data.token ?? "";
       String userId = loginResponse.data.id ?? "";
@@ -46,6 +48,7 @@ class AuthHelper {
     }
   }
 
+
 // SIGN UP HELPER
   static Future<bool> signup(SignupModel model) async {
     Map<String, String> requestHeaders = {
@@ -56,8 +59,7 @@ class AuthHelper {
     var response = await client.post(url,
         headers: requestHeaders, body: jsonEncode(model.toJson()));
 
-    SignupResponse signupResponse =
-        SignupResponse.fromJson(jsonDecode(response.body));
+    SignupResponse signupResponse = SignupResponse.fromJson(jsonDecode(response.body));
 
     if (signupResponse.statusCode == 200) {
       return true;
@@ -69,7 +71,7 @@ class AuthHelper {
   static Future<ProfileRes> getProfile() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
-    log('User Token' + token!);
+    log('User Token'+ token!);
 
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -79,7 +81,7 @@ class AuthHelper {
     var url = Uri.http(Config.apiUrl, Config.profile);
     var response = await client.get(url, headers: requestHeaders);
 
-    log('User Profile' + response.body);
+    log('User Profile'+response.body);
     if (response.statusCode == 200) {
       var profile = profileResFromJson(response.body);
 
@@ -128,4 +130,5 @@ class AuthHelper {
       }
     }
   }
+
 }

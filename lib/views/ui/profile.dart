@@ -9,6 +9,7 @@ import 'package:online_shop/services/auth_helper.dart';
 import 'package:online_shop/views/shared/appstyle.dart';
 import 'package:online_shop/views/shared/tiles_widget.dart';
 import 'package:online_shop/views/ui/auth/login.dart';
+import 'package:online_shop/views/ui/waitlist.dart';
 import 'package:online_shop/views/ui/cartpage.dart';
 import 'package:online_shop/views/ui/favorites.dart';
 import 'package:online_shop/views/ui/non_userpage.dart';
@@ -107,7 +108,6 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.09,
                     decoration: const BoxDecoration(color: Colors.white),
                     child: Column(
                       children: [
@@ -231,6 +231,16 @@ class _ProfilePageState extends State<ProfilePage> {
                               title: "Cart",
                               leading: Fontisto.shopping_bag_1,
                             ),
+                            TilesWidget(
+                              OnTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => WaiListPage()));
+                              },
+                              title: "WishList",
+                              leading: Fontisto.google_wallet,
+                            ),
                           ],
                         ),
                       ),
@@ -306,9 +316,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ],
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
                       ),
                     ],
                   ),

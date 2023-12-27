@@ -12,7 +12,7 @@ part 'sneakers.g.dart';
 @freezed
 class Sneakers with _$Sneakers {
   const factory Sneakers({
-    // required String id,
+    required String? id,
     required List<String> images,
     required int? stock,
     required String? name,

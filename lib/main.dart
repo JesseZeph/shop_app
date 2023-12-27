@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:online_shop/controllers/cart_provider.dart';
 import 'package:online_shop/controllers/favorites_provider.dart';
@@ -17,6 +18,7 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('cart_box');
   await Hive.openBox('fav_box');
+  await GetStorage.init();
 
   //method that initializes the app and run top level wigets
   runApp(MultiProvider(providers: [
@@ -26,7 +28,8 @@ void main() async {
     ChangeNotifierProvider(create: (context) => FavoritesNotifier()),
     ChangeNotifierProvider(create: (context) => LoginNotifier()),
     ChangeNotifierProvider(create: (context) => PaymentNotifier()),
-  ], child: const MyApp()));
+  ],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -43,7 +46,7 @@ class MyApp extends StatelessWidget {
       builder: (context , child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'ecommerce',
+          title: 'dbestech',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),

@@ -6,6 +6,8 @@ import 'package:online_shop/services/cart_helper.dart';
 import 'package:online_shop/views/shared/appstyle.dart';
 import 'package:online_shop/views/shared/reusable_text.dart';
 
+import '../../../models/orders/new_orders.dart';
+
 class ProcessOrders extends StatefulWidget {
   const ProcessOrders({super.key});
 
@@ -15,11 +17,13 @@ class ProcessOrders extends StatefulWidget {
 
 class _ProcessOrdersState extends State<ProcessOrders> {
   Future<List<PaidOrders>>? _orders;
+  Future<List<Order>>? _newOrders;
 
   @override
   void initState() {
     super.initState();
     _orders = CartHelper.getOrders();
+    _newOrders = CartHelper.fetchOrders();
   }
 
   @override
@@ -49,7 +53,7 @@ class _ProcessOrdersState extends State<ProcessOrders> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(12))),
                       child: FutureBuilder(
-                          future: _orders,
+                          future: _newOrders,
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
@@ -87,9 +91,12 @@ class _ProcessOrdersState extends State<ProcessOrders> {
                                                                   Radius
                                                                       .circular(
                                                                           12))),
+/*
                                                   child: Image.network(data
-                                                      .productId.imageUrl[0])),
-                                              const SizedBox(width: 10),
+                                                      .productId.imageUrl[0])
+*/
+                                              ),
+                                              const SizedBox(width: 8),
                                               Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
@@ -97,14 +104,14 @@ class _ProcessOrdersState extends State<ProcessOrders> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   ReusableText(
-                                                      text: data.productId.name,
+                                                      text: data.address,
                                                       style: appstyle(
                                                           12,
                                                           Colors.black,
                                                           FontWeight.bold)),
                                                   ReusableText(
                                                       text:
-                                                          "\$${data.productId.price}",
+                                                          "\$${data.totalPrice}",
                                                       style: appstyle(
                                                           12,
                                                           Colors.black,
