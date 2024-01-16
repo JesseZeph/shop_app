@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:online_shop/controllers/login_provider.dart';
-import 'package:online_shop/models/auth_response/profile_model.dart';
 import 'package:online_shop/models/orders/general_user.dart';
-import 'package:online_shop/models/orders/orders_res.dart';
 import 'package:online_shop/services/auth_helper.dart';
 import 'package:online_shop/views/shared/appstyle.dart';
 import 'package:online_shop/views/shared/tiles_widget.dart';
@@ -21,7 +19,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
-
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
@@ -29,6 +26,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool? isLogged;
   Future<GeneralUser>? profile;
+
 
   @override
   void initState() {
@@ -41,6 +39,12 @@ class _ProfilePageState extends State<ProfilePage> {
     isLogged = prefs.getBool("loggedIn") ?? false;
     if (isLogged == true) {
       profile = AuthHelper.getUserProfile();
+
+      final newProfile = AuthHelper.getUserProfile();
+      if (newProfile.toString().contains('Server error')){
+        isLogged = false;
+      }
+
     } else {}
   }
 

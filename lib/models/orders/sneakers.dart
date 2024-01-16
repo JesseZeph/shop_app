@@ -10,8 +10,8 @@ part 'sneakers.freezed.dart';
 part 'sneakers.g.dart';
 
 @freezed
-class Sneakers with _$Sneakers {
-  const factory Sneakers({
+class StoreProduct with _$Sneakers {
+  const factory StoreProduct({
     required String? id,
     required List<String> images,
     required int? stock,
@@ -27,6 +27,6 @@ class Sneakers with _$Sneakers {
     // required int v,
   }) = _Sneakers;
 
-  factory Sneakers.fromJson(Map<String, Object?> json)
+  factory StoreProduct.fromJson(Map<String, Object?> json)
   => _$SneakersFromJson(json);
 }

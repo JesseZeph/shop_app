@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Sneakers _$SneakersFromJson(Map<String, dynamic> json) {
+StoreProduct _$SneakersFromJson(Map<String, dynamic> json) {
   return _Sneakers.fromJson(json);
 }
 
@@ -35,14 +35,14 @@ mixin _$Sneakers {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SneakersCopyWith<Sneakers> get copyWith =>
+  $SneakersCopyWith<StoreProduct> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SneakersCopyWith<$Res> {
-  factory $SneakersCopyWith(Sneakers value, $Res Function(Sneakers) then) =
-      _$SneakersCopyWithImpl<$Res, Sneakers>;
+  factory $SneakersCopyWith(StoreProduct value, $Res Function(StoreProduct) then) =
+      _$SneakersCopyWithImpl<$Res, StoreProduct>;
   @useResult
   $Res call(
       {String? id,
@@ -58,7 +58,7 @@ abstract class $SneakersCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SneakersCopyWithImpl<$Res, $Val extends Sneakers>
+class _$SneakersCopyWithImpl<$Res, $Val extends StoreProduct>
     implements $SneakersCopyWith<$Res> {
   _$SneakersCopyWithImpl(this._value, this._then);
 
@@ -334,7 +334,7 @@ class _$SneakersImpl with DiagnosticableTreeMixin implements _Sneakers {
   }
 }
 
-abstract class _Sneakers implements Sneakers {
+abstract class _Sneakers implements StoreProduct {
   const factory _Sneakers(
       {required final String? id,
       required final List<String> images,

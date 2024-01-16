@@ -14,10 +14,10 @@ import '../../models/orders/sneakers.dart';
 class HomeWidget extends StatelessWidget {
   const HomeWidget({
     super.key,
-    required Future<List<Sneakers>> male,
+    required Future<List<StoreProduct>> product,
     required this.tabIndex,
-  }) : _male = male;
-  final Future<List<Sneakers>> _male;
+  }) : _male = product;
+  final Future<List<StoreProduct>> _male;
   final int tabIndex;
 
   @override
@@ -28,7 +28,7 @@ class HomeWidget extends StatelessWidget {
       children: [
         SizedBox(
             height: MediaQuery.of(context).size.height * 0.405,
-            child: FutureBuilder<List<Sneakers>>(
+            child: FutureBuilder<List<StoreProduct>>(
                 future: _male,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -36,7 +36,22 @@ class HomeWidget extends StatelessWidget {
                       child: CircularProgressIndicator.adaptive(),
                     );
                   } else if (snapshot.hasError) {
-                    return Text("Error ${snapshot.error}");
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(Fontisto.trash),
+                          Text(
+                            "Please Check your\ninternet connection",
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
+                    );
+                    return Text("Error ${snapshot.error} ");
+                  } else if (!snapshot.hasData) {
+                    return Text("Error This guy is empty");
                   } else {
                     final male = snapshot.data;
                     return ListView.builder(
@@ -61,7 +76,7 @@ class HomeWidget extends StatelessWidget {
                                 price: "\$${shoe.price}",
                                 category: shoe.category ?? "",
                                 id: 'shoe.id',
-                                name: shoe.name?? "",
+                                name: shoe.name ?? "",
                                 image: shoe.images[0],
                               ),
                             ),
@@ -109,7 +124,7 @@ class HomeWidget extends StatelessWidget {
         ),
         SizedBox(
             height: MediaQuery.of(context).size.height * 0.13,
-            child: FutureBuilder<List<Sneakers>>(
+            child: FutureBuilder<List<StoreProduct>>(
                 future: _male,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {

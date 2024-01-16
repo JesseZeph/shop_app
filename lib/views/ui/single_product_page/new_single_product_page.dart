@@ -25,7 +25,7 @@ import '../../shared/waitlist_btn.dart';
 class NewProductPage extends StatefulWidget {
   const NewProductPage({super.key, required this.sneakers});
 
-  final Sneakers sneakers;
+  final StoreProduct sneakers;
 
   @override
   State<NewProductPage> createState() => _NewProductPageState();

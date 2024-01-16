@@ -17,32 +17,31 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late final TabController _tabController =
       TabController(length: 8, vsync: this);
 
-  late Future<List<Sneakers>> _male;
-  late Future<List<Sneakers>> _female;
-  late Future<List<Sneakers>> _kids;
+  late Future<List<StoreProduct>> _electronics;
+  late Future<List<StoreProduct>> _furnitures;
+  late Future<List<StoreProduct>> _vehicles;
+  late Future<List<StoreProduct>> _mobilePhones;
+  late Future<List<StoreProduct>> _television;
+  late Future<List<StoreProduct>> _laptop;
+  late Future<List<StoreProduct>> _generator;
+  late Future<List<StoreProduct>> _refridgerator;
 
-  void getMale() {
-    _male = Helper().getMaleSneakers();
+  Future<void> getItems() async {
+    _electronics = Helper().getProducts('electronics');
+    _furnitures = Helper().getProducts('furnitures');
+    _vehicles = Helper().getProducts('vehicles');
+    _mobilePhones = Helper().getProducts('mobile phones');
+    _television = Helper().getProducts('television');
+    _laptop = Helper().getProducts('laptop');
+    _generator = Helper().getProducts('generator');
+    _refridgerator = Helper().getProducts('refridgerator');
   }
-
-  void getFemale() {
-    _female = Helper().getFemaleSneakers();
-  }
-
-  void getkids() {
-    _kids = Helper().getKidsSneakers();
-  }
-
-
 
   @override
   void initState() {
     super.initState();
-    getMale();
-    getkids();
-    getFemale();
+    getItems();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -122,35 +121,35 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 padding: const EdgeInsets.only(left: 12),
                 child: TabBarView(controller: _tabController, children: [
                   HomeWidget(
-                    male: _kids,
+                    product: _electronics,
                     tabIndex: 0,
                   ),
                   HomeWidget(
-                    male: _kids,
+                    product: _furnitures,
                     tabIndex: 1,
                   ),
                   HomeWidget(
-                    male: _kids,
+                    product: _vehicles,
                     tabIndex: 2,
                   ),
                   HomeWidget(
-                    male: _kids,
+                    product: _mobilePhones,
                     tabIndex: 0,
                   ),
                   HomeWidget(
-                    male: _kids,
+                    product: _television,
                     tabIndex: 1,
                   ),
                   HomeWidget(
-                    male: _kids,
+                    product: _laptop,
                     tabIndex: 2,
                   ),
                   HomeWidget(
-                    male: _kids,
+                    product: _generator,
                     tabIndex: 1,
                   ),
                   HomeWidget(
-                    male: _kids,
+                    product: _refridgerator,
                     tabIndex: 2,
                   ),
                 ]),

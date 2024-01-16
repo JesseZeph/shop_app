@@ -12,7 +12,7 @@ _$GeneralModelImpl _$$GeneralModelImplFromJson(Map<String, dynamic> json) =>
       statusCode: json['statusCode'] as int?,
       message: json['message'] as String?,
       data: (json['data'] as List<dynamic>)
-          .map((e) => Sneakers.fromJson(e as Map<String, dynamic>))
+          .map((e) => StoreProduct.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

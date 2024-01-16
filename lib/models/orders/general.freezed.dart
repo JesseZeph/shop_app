@@ -23,7 +23,7 @@ mixin _$GeneralModel {
   bool? get success => throw _privateConstructorUsedError;
   int? get statusCode => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
-  List<Sneakers> get data => throw _privateConstructorUsedError;
+  List<StoreProduct> get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,7 +38,7 @@ abstract class $GeneralModelCopyWith<$Res> {
       _$GeneralModelCopyWithImpl<$Res, GeneralModel>;
   @useResult
   $Res call(
-      {bool? success, int? statusCode, String? message, List<Sneakers> data});
+      {bool? success, int? statusCode, String? message, List<StoreProduct> data});
 }
 
 /// @nodoc
@@ -75,7 +75,7 @@ class _$GeneralModelCopyWithImpl<$Res, $Val extends GeneralModel>
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<Sneakers>,
+              as List<StoreProduct>,
     ) as $Val);
   }
 }
@@ -89,7 +89,7 @@ abstract class _$$GeneralModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool? success, int? statusCode, String? message, List<Sneakers> data});
+      {bool? success, int? statusCode, String? message, List<StoreProduct> data});
 }
 
 /// @nodoc
@@ -124,7 +124,7 @@ class __$$GeneralModelImplCopyWithImpl<$Res>
       data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<Sneakers>,
+              as List<StoreProduct>,
     ));
   }
 }
@@ -136,7 +136,7 @@ class _$GeneralModelImpl with DiagnosticableTreeMixin implements _GeneralModel {
       {required this.success,
       required this.statusCode,
       required this.message,
-      required final List<Sneakers> data})
+      required final List<StoreProduct> data})
       : _data = data;
 
   factory _$GeneralModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -148,9 +148,9 @@ class _$GeneralModelImpl with DiagnosticableTreeMixin implements _GeneralModel {
   final int? statusCode;
   @override
   final String? message;
-  final List<Sneakers> _data;
+  final List<StoreProduct> _data;
   @override
-  List<Sneakers> get data {
+  List<StoreProduct> get data {
     if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_data);
@@ -208,7 +208,7 @@ abstract class _GeneralModel implements GeneralModel {
       {required final bool? success,
       required final int? statusCode,
       required final String? message,
-      required final List<Sneakers> data}) = _$GeneralModelImpl;
+      required final List<StoreProduct> data}) = _$GeneralModelImpl;
 
   factory _GeneralModel.fromJson(Map<String, dynamic> json) =
       _$GeneralModelImpl.fromJson;
@@ -220,7 +220,7 @@ abstract class _GeneralModel implements GeneralModel {
   @override
   String? get message;
   @override
-  List<Sneakers> get data;
+  List<StoreProduct> get data;
   @override
   @JsonKey(ignore: true)
   _$$GeneralModelImplCopyWith<_$GeneralModelImpl> get copyWith =>

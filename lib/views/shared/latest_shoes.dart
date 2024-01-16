@@ -9,14 +9,14 @@ import '../../models/orders/sneakers.dart';
 class latestShoes extends StatelessWidget {
   const latestShoes({
     super.key,
-    required Future<List<Sneakers>> male,
+    required Future<List<StoreProduct>> male,
   }) : _male = male;
 
-  final Future<List<Sneakers>> _male;
+  final Future<List<StoreProduct>> _male;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Sneakers>>(
+    return FutureBuilder<List<StoreProduct>>(
         future: _male,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

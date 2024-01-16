@@ -104,7 +104,7 @@ class _WaiListPageState extends State<WaiListPage> {
                                     Navigator.pop(context);
                                   },
                                   onPressed: () {
-                                    Sneakers mSneakers = new Sneakers(id:  data.product.id
+                                    StoreProduct mSneakers = new StoreProduct(id:  data.product.id
                                         ,
                                         images: data.product.images,
                                         stock:  data.product.stock,

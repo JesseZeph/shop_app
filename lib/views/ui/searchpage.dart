@@ -60,7 +60,7 @@ class _SearchPageState extends State<SearchPage> {
           backgroundColor: Colors.black,
         ),
         body: search.text.isNotEmpty
-            ? FutureBuilder<List<Sneakers>>(
+            ? FutureBuilder<List<StoreProduct>>(
                 future: Helper().search(search.text),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {

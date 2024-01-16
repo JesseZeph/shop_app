@@ -23,9 +23,9 @@ class _ProductByCatState extends State<ProductByCat>
   late final TabController _tabController =
       TabController(length: 3, vsync: this);
 
-  late Future<List<Sneakers>> _male;
-  late Future<List<Sneakers>> _female;
-  late Future<List<Sneakers>> _kids;
+  late Future<List<StoreProduct>> _male;
+  late Future<List<StoreProduct>> _female;
+  late Future<List<StoreProduct>> _kids;
 
   void getMale() {
     _male = Helper().getMaleSneakers();
@@ -35,8 +35,8 @@ class _ProductByCatState extends State<ProductByCat>
     _female = Helper().getFemaleSneakers();
   }
 
-  void getkids() {
-    _kids = Helper().getKidsSneakers();
+  void getkids(String category) {
+    _kids = Helper().getProducts(category);
   }
 
   @override
@@ -44,7 +44,7 @@ class _ProductByCatState extends State<ProductByCat>
     super.initState();
      _tabController.animateTo(widget.tabIndex, curve: Curves.easeIn);
     getMale();
-    getkids();
+    getkids('electronics');
     getFemale();
   }
 

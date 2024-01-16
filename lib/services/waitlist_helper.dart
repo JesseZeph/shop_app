@@ -116,7 +116,7 @@ class WaitListHelper {
     }
   }
 
-  static Future<Sneakers> getSingleProduct(String productId) async {
+  static Future<StoreProduct> getSingleProduct(String productId) async {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
@@ -132,7 +132,7 @@ class WaitListHelper {
     log(response.body);
 
     if (response.statusCode == 200) {
-      Sneakers myResponse = Sneakers.fromJson(json.decode(response.body));
+      StoreProduct myResponse = StoreProduct.fromJson(json.decode(response.body));
 
       return myResponse;
     } else {
