@@ -10,6 +10,7 @@ class ReusableText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      overflow: TextOverflow.ellipsis,
       // maxLines: 1,
       // textAlign: TextAlign.left,
       // softWrap: false,

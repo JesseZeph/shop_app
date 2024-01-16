@@ -152,7 +152,7 @@ import '../models/sneaker_model copy.dart';
 class Helper {
   static var client = http.Client();
   // Male
-  Future<List<Sneakers>> getMaleSneakers() async {
+  Future<List<StoreProduct>> getMaleSneakers() async {
     var url = Uri.http(Config.apiUrl, Config.sneakers);
     var response = await client.get(url);
 
@@ -169,24 +169,24 @@ class Helper {
 
       List<dynamic> jsonResponse = json.decode(response.body);
       var maleList =
-      jsonResponse.map((item) => Sneakers.fromJson(item)).toList();
+          jsonResponse.map((item) => StoreProduct.fromJson(item)).toList();
       var male =
-      maleList.where((element) => element.category == "Men's Running");
+          maleList.where((element) => element.category == "Men's Running");
       return male.toList();
     } else {
       throw Exception('Failed to load jobs list');
     }
   }
 
-  Future<List<Sneakers>> getMaleSneakerssn() async {
+  Future<List<StoreProduct>> getMaleSneakerssn() async {
     var url = Uri.https(Config.apiUrl, Config.sneakers);
     var response = await http.get(url);
     // log('The status code: ${response.body}');
 
     if (response.statusCode == 200) {
       GeneralModel myResponse =
-      GeneralModel.fromJson(json.decode(response.body));
-      List<Sneakers> maleList = myResponse.data!
+          GeneralModel.fromJson(json.decode(response.body));
+      List<StoreProduct> maleList = myResponse.data!
           .where((element) => element.category == "Men's Running")
           .toList();
 
@@ -219,22 +219,8 @@ class Helper {
   //   }
   // }
 
-  /*  Future<List<Sneakers>> getMaleSneakerss() async {
-    var url = Uri.http(Config.apiUrl, Config.sneakers);
-    var response = await client.get(url);
-
-    if (response.statusCode == 200) {
-      var maleList = sneakersFromJson(response.body);
-      var male =
-          maleList.where((element) => element.category == "Men's Running");
-      return male.toList();
-    } else {
-      throw Exception('Failed to load jobs list');
-    }
-  }
- */
 // Female
-  Future<List<Sneakers>> getFemaleSneakers() async {
+  Future<List<StoreProduct>> getFemaleSneakers() async {
     var url = Uri.http(Config.apiUrl, Config.sneakers);
     var response = await client.get(url);
 
@@ -257,7 +243,13 @@ class Helper {
   }
 
 // Kids
-  Future<List<Sneakers>> getKidsSneakers() async {
+  Future<List<StoreProduct>> getProducts(String category) async {
+    log(category);
+    if (category == 'furnitures') {
+      log('New Akanimo Furnitures');
+      log(category);
+    }
+
     var headers = {
       "Accept": "application/json",
       'Content-Type': 'application/json',
@@ -270,34 +262,29 @@ class Helper {
             contentType: Headers.acceptHeader,
             headers: headers,
           ));
-      log('Response Code'+response.data.toString());
-
+      log('Response Code' + response.data.toString());
 
       if (response.statusCode == 200) {
         var maleList = GeneralModel.fromJson(response.data);
-        log('New Akanimo'+maleList.statusCode.toString());
-
+        log('New Akanimo' + maleList.statusCode.toString());
 
         log(maleList.toString());
-        var kids = maleList.data!
-            .where((element) => element.category == "electronics");
+        var kids =
+            maleList.data!.where((element) => element.category == category);
 
-        log('New Akanimo List'+kids.toString());
-
+        log('New Akanimo List' + kids.toString());
 
         return kids.toList();
       } else {
         throw Exception('Failed to load jobs list');
       }
     } on DioError catch (e) {
-
       if (e.response != null) {
         print(e.response!.data);
         print(e.response!.headers);
         print(e.response!.requestOptions);
         throw ('Fetch store account exception $e');
       } else {
-
         print(e.requestOptions);
         print(e.message);
         throw ('Fetch store account exception $e');
@@ -324,7 +311,7 @@ class Helper {
     }
   }
 
-  Future<List<Sneakers>> search(String searchQuery) async {
+  Future<List<StoreProduct>> search(String searchQuery) async {
     var url = Uri.http(Config.apiUrl, "${Config.search}$searchQuery");
     var response = await client.get(url);
     if (response.statusCode == 200) {
@@ -336,4 +323,3 @@ class Helper {
     }
   }
 }
-

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -10,6 +12,7 @@ import 'package:online_shop/controllers/product_provider.dart';
 import 'package:online_shop/models/cart/add_to_cart.dart';
 import 'package:online_shop/models/sneaker_model.dart';
 import 'package:online_shop/services/cart_helper.dart';
+import 'package:online_shop/services/waitlist_helper.dart';
 import 'package:online_shop/views/shared/appstyle.dart';
 import 'package:online_shop/views/shared/checkout_btn.dart';
 import 'package:online_shop/views/ui/auth/login.dart';
@@ -17,11 +20,12 @@ import 'package:online_shop/views/ui/favorites.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/orders/sneakers.dart';
+import '../shared/waitlist_btn.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key, required this.sneakers});
 
-  final Sneakers sneakers;
+  final StoreProduct sneakers;
 
   @override
   State<ProductPage> createState() => _ProductPageState();
@@ -61,129 +65,130 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     var favoritesNotifier = Provider.of<FavoritesNotifier>(context);
     var loginNotifier = Provider.of<LoginNotifier>(context);
-    return Scaffold(body: Consumer<ProductNotifier>(
-      builder: (context, productNotifier, child) {
-        return CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              automaticallyImplyLeading: false,
-              leadingWidth: 0,
-              title: Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        AntDesign.close,
-                        color: Colors.black,
+    return Scaffold(
+      body: Consumer<ProductNotifier>(
+        builder: (context, productNotifier, child) {
+          return CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                leadingWidth: 0,
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          AntDesign.close,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              pinned: true,
-              snap: false,
-              floating: true,
-              backgroundColor: Colors.transparent,
-              expandedHeight: MediaQuery.of(context).size.height,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Stack(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.5,
-                      width: MediaQuery.of(context).size.width,
-                      child: PageView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: widget.sneakers.images.length,
-                          controller: pageController,
-                          onPageChanged: (page) {
-                            productNotifier.activePage = page;
-                          },
-                          itemBuilder: (context, int index) {
-                            return Stack(
-                              children: [
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.39,
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Colors.grey.shade300,
-                                  child: CachedNetworkImage(
-                                    imageUrl: widget.sneakers.images[index],
-                                    fit: BoxFit.contain,
+                pinned: true,
+                snap: false,
+                floating: true,
+                backgroundColor: Colors.transparent,
+                expandedHeight: MediaQuery.of(context).size.height,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Stack(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        width: MediaQuery.of(context).size.width,
+                        child: PageView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: widget.sneakers.images.length,
+                            controller: pageController,
+                            onPageChanged: (page) {
+                              productNotifier.activePage = page;
+                            },
+                            itemBuilder: (context, int index) {
+                              return Stack(
+                                children: [
+                                  Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.39,
+                                    width: MediaQuery.of(context).size.width,
+                                    color: Colors.grey.shade300,
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.sneakers.images[index],
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
-                                ),
-                                Positioned(
-                                    top: 56.h,
-                                    right: 20.w,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        if (loginNotifier.loggedIn == true) {
-                                          if (favoritesNotifier.ids
-                                              .contains('widget.sneakers.id')) {
+                                  Positioned(
+                                      top: 56.h,
+                                      right: 20.w,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          if (loginNotifier.loggedIn == true) {
+                                            if (favoritesNotifier.ids.contains(
+                                                'widget.sneakers.id')) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Favorites()));
+                                            } else {
+                                              _createFav({
+                                                "id": 'widget.sneakers.id',
+                                                "name": widget.sneakers.name,
+                                                "category":
+                                                    widget.sneakers.category,
+                                                "imageUrl":
+                                                    widget.sneakers.images[0],
+                                                "price": widget.sneakers.price,
+                                              });
+                                            }
+                                          } else {
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const Favorites()));
-                                          } else {
-                                            _createFav({
-                                              "id": 'widget.sneakers.id',
-                                              "name": widget.sneakers.name,
-                                              "category":
-                                                  widget.sneakers.category,
-                                              "imageUrl":
-                                                  widget.sneakers.images[0],
-                                              "price": widget.sneakers.price,
-                                            });
+                                                        const LoginPage()));
                                           }
-                                        } else {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const LoginPage()));
-                                        }
-                                      },
-                                      child: favoritesNotifier.ids
-                                              .contains('widget.sneakers.id')
-                                          ? const Icon(AntDesign.heart)
-                                          : const Icon(AntDesign.hearto),
-                                    )),
-                                Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    left: 0,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.3,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: List<Widget>.generate(
-                                          widget.sneakers.images.length,
-                                          (index) => Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 4),
-                                                child: CircleAvatar(
-                                                  radius: 5,
-                                                  backgroundColor:
-                                                      productNotifier
-                                                                  .activepage !=
-                                                              index
-                                                          ? Colors.grey
-                                                          : Colors.black,
-                                                ),
-                                              )),
-                                    )),
-                              ],
-                            );
-                          }),
-                    ),
-                    Positioned(
+                                        },
+                                        child: favoritesNotifier.ids
+                                                .contains('widget.sneakers.id')
+                                            ? const Icon(AntDesign.heart)
+                                            : const Icon(AntDesign.hearto),
+                                      )),
+                                  Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      left: 0,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: List<Widget>.generate(
+                                            widget.sneakers.images.length,
+                                            (index) => Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 4),
+                                                  child: CircleAvatar(
+                                                    radius: 5,
+                                                    backgroundColor:
+                                                        productNotifier
+                                                                    .activepage !=
+                                                                index
+                                                            ? Colors.grey
+                                                            : Colors.black,
+                                                  ),
+                                                )),
+                                      )),
+                                ],
+                              );
+                            }),
+                      ),
+                      Positioned(
                         bottom: 30,
                         child: ClipRRect(
                           borderRadius: const BorderRadius.only(
@@ -200,7 +205,7 @@ class _ProductPageState extends State<ProductPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    widget.sneakers.name?? "",
+                                    widget.sneakers.name ?? "",
                                     maxLines: 1,
                                     style: appstyle(
                                         40, Colors.black, FontWeight.bold),
@@ -208,7 +213,7 @@ class _ProductPageState extends State<ProductPage> {
                                   Row(
                                     children: [
                                       Text(
-                                        widget.sneakers.category?? '',
+                                        widget.sneakers.category ?? '',
                                         style: appstyle(
                                             20, Colors.grey, FontWeight.w500),
                                       ),
@@ -311,14 +316,14 @@ class _ProductPageState extends State<ProductPage> {
                                                   selected: sizes['isSelected'],
                                                   onSelected: (newState) {
                                                     if (productNotifier.sizes
-                                                        .contains(
-                                                            sizes['size.dart'])) {
+                                                        .contains(sizes[
+                                                            'size.dart'])) {
                                                       productNotifier.sizes
-                                                          .remove(
-                                                              sizes['size.dart']);
+                                                          .remove(sizes[
+                                                              'size.dart']);
                                                     } else {
-                                                      productNotifier.sizes
-                                                          .add(sizes['size.dart']);
+                                                      productNotifier.sizes.add(
+                                                          sizes['size.dart']);
                                                     }
 
                                                     productNotifier
@@ -370,12 +375,29 @@ class _ProductPageState extends State<ProductPage> {
                                       padding: const EdgeInsets.only(top: 12),
                                       child: CheckoutButton(
                                         onTap: () async {
+                                          log('${loginNotifier.loggedIn}');
                                           if (loginNotifier.loggedIn == true) {
                                             AddToCart model = AddToCart(
-                                                cartItem: 'widget.sneakers.id',
+                                                productId: widget.sneakers.id!,
                                                 quantity: 1);
-                                            CartHelper.addToCart(model);
-                                           
+                                            CartHelper.newAddtoCart(model);
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                backgroundColor: Colors.green,
+                                                content: Row(
+                                                  children: [
+                                                    Text(
+                                                      '🥰',
+                                                      style: TextStyle(
+                                                          fontSize: 25),
+                                                    ),
+                                                    Text(
+                                                        'Product added to Cart')
+                                                  ],
+                                                ),
+                                              ),
+                                            );
                                           } else {
                                             Navigator.push(
                                                 context,
@@ -387,19 +409,58 @@ class _ProductPageState extends State<ProductPage> {
                                         label: "Add to Cart",
                                       ),
                                     ),
-                                  )
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 0),
+                                      child: WaitListButton(
+                                        onTap: () async {
+                                          log('${loginNotifier.loggedIn}');
+                                          if (loginNotifier.loggedIn == true) {
+                                            AddToCart model = AddToCart(
+                                                productId: widget.sneakers.id!,
+                                                quantity: 1);
+                                            final response =
+                                                await WaitListHelper
+                                                    .newAddtoWaitList(model);
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                backgroundColor: Colors.green,
+                                                content: Row(
+                                                  children: [
+                                                    Text(response!.message!)
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          } else {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const LoginPage()));
+                                          }
+                                        },
+                                        label: "Add to WishList",
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
                           ),
-                        ))
-                  ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
-        );
-      },
-    ));
+              )
+            ],
+          );
+        },
+      ),
+    );
   }
 }

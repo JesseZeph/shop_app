@@ -15,7 +15,7 @@ class GeneralModel with _$GeneralModel {
     required bool? success,
     required int? statusCode,
     required String? message,
-    required List<Sneakers> data,
+    required List<StoreProduct> data,
   }) = _GeneralModel;
 
   factory GeneralModel.fromJson(Map<String, Object?> json)

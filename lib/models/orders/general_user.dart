@@ -19,6 +19,8 @@ class GeneralUser with _$GeneralUser {
     required User data,
   }) = _GeneralUser;
 
+
+
   factory GeneralUser.fromJson(Map<String, Object?> json)
   => _$GeneralUserFromJson(json);
 }

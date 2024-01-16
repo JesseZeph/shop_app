@@ -8,6 +8,7 @@ part of 'sneakers.dart';
 
 _$SneakersImpl _$$SneakersImplFromJson(Map<String, dynamic> json) =>
     _$SneakersImpl(
+      id: json['id'] as String?,
       images:
           (json['images'] as List<dynamic>).map((e) => e as String).toList(),
       stock: json['stock'] as int?,
@@ -22,6 +23,7 @@ _$SneakersImpl _$$SneakersImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$SneakersImplToJson(_$SneakersImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'images': instance.images,
       'stock': instance.stock,
       'name': instance.name,

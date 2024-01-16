@@ -1,0 +1,1 @@
+ C:\\Users\\Akanimo\ Ekong\\AndroidStudioProjects\\shop_app\\.dart_tool\\flutter_build\\726a95e9f5fcc55801a5dafcbf7f87e8\\native_assets.yaml: 

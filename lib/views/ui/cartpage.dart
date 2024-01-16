@@ -4,6 +4,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:online_shop/controllers/cart_provider.dart';
 import 'package:online_shop/controllers/login_provider.dart';
 import 'package:online_shop/controllers/payment_provider.dart';
+import 'package:online_shop/models/cart/get_cart_response.dart';
 import 'package:online_shop/models/cart/get_products.dart';
 import 'package:online_shop/models/orders/orders_req.dart';
 import 'package:online_shop/services/cart_helper.dart';
@@ -12,6 +13,7 @@ import 'package:online_shop/views/shared/appstyle.dart';
 import 'package:online_shop/views/shared/checkout_btn.dart';
 import 'package:online_shop/views/ui/non_userpage.dart';
 import 'package:online_shop/views/ui/payment.dart';
+import 'package:online_shop/views/ui/payments/payment_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,15 +25,15 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  late Future<List<Product>> _cartList;
-  List<Product>? checkout;
+  late Future<List<MProducts>?> _cartList;
+  List<MProducts>? checkout;
   bool? isSelected = true;
   bool? isLogged;
 
   @override
   void initState() {
     super.initState();
-    _cartList = CartHelper.getCart();
+    _cartList = CartHelper.getCartProduct();
   }
 
   @override
@@ -95,10 +97,6 @@ class _CartPageState extends State<CartPage> {
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(12)),
                                           child: Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.11,
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width,
@@ -129,9 +127,10 @@ class _CartPageState extends State<CartPage> {
                                                                   .all(12),
                                                           child:
                                                               CachedNetworkImage(
+                                                            // imageUrl: data.product?.imageUrl[1],
                                                             imageUrl: data
-                                                                .cartItem
-                                                                .imageUrl[1],
+                                                                .product!
+                                                                .images![1],
                                                             width: 70,
                                                             height: 70,
                                                             fit: BoxFit.fill,
@@ -143,11 +142,17 @@ class _CartPageState extends State<CartPage> {
                                                                 GestureDetector(
                                                               onTap: () async {
                                                                 await CartHelper
-                                                                    .deleteItem(
-                                                                        data.id);
+                                                                    .deletefromCart(data
+                                                                        .product!
+                                                                        .id!);
                                                                 _cartList =
                                                                     CartHelper
-                                                                        .getCart();
+                                                                        .getCartProduct();
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(SnackBar(
+                                                                        content:
+                                                                            Text('Product Deleted')));
                                                                 Navigator.pop(
                                                                     context);
                                                               },
@@ -184,7 +189,7 @@ class _CartPageState extends State<CartPage> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            data.cartItem.name,
+                                                            data.product!.name!,
                                                             style: appstyle(
                                                                 16,
                                                                 Colors.black,
@@ -195,8 +200,8 @@ class _CartPageState extends State<CartPage> {
                                                             height: 5,
                                                           ),
                                                           Text(
-                                                            data.cartItem
-                                                                .category,
+                                                            data.product!
+                                                                .category!,
                                                             style: appstyle(
                                                                 14,
                                                                 Colors.grey,
@@ -212,7 +217,7 @@ class _CartPageState extends State<CartPage> {
                                                                     .spaceBetween,
                                                             children: [
                                                               Text(
-                                                                "\$${data.cartItem.price}",
+                                                                "\$${data.product?.price}",
                                                                 style: appstyle(
                                                                     18,
                                                                     Colors
@@ -308,20 +313,25 @@ class _CartPageState extends State<CartPage> {
                     alignment: Alignment.bottomCenter,
                     child: CheckoutButton(
                         onTap: () async {
-                          final SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          String userId = prefs.getString('userId') ?? "";
-                          Order model = Order(userId: userId, cartItems: [
-                            CartItem(
-                                name: checkout![0].cartItem.name,
-                                id: checkout![0].cartItem.id,
-                                price: checkout![0].cartItem.price,
-                                cartQuantity: 1)
-                          ]);
-                          PaymentHelper.payment(model).then((value) {
-                            paymentNotifier.paymentUrl = value;
-                           
-                          });
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PaymentScreen()));
+
+                          // final SharedPreferences prefs =
+                          //     await SharedPreferences.getInstance();
+                          // String userId = prefs.getString('userId') ?? "";
+                          // Order model = Order(userId: userId, cartItems: [
+                          //   CartItem(
+                          //       name: checkout![0].product!.name!,
+                          //       id: checkout![0].product!.id!,
+                          //       price: checkout![0].product!.price.toString(),
+                          //       cartQuantity: 1)
+                          // ]);
+                          // PaymentHelper.payment(model).then((value) {
+                          //   paymentNotifier.paymentUrl = value;
+
+                          // });
                         },
                         label: "Proceed to Checkout"),
                   ),

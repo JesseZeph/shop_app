@@ -14,13 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Sneakers _$SneakersFromJson(Map<String, dynamic> json) {
+StoreProduct _$SneakersFromJson(Map<String, dynamic> json) {
   return _Sneakers.fromJson(json);
 }
 
 /// @nodoc
 mixin _$Sneakers {
-// required String id,
+  String? get id => throw _privateConstructorUsedError;
   List<String> get images => throw _privateConstructorUsedError;
   int? get stock => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
@@ -35,17 +35,18 @@ mixin _$Sneakers {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SneakersCopyWith<Sneakers> get copyWith =>
+  $SneakersCopyWith<StoreProduct> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SneakersCopyWith<$Res> {
-  factory $SneakersCopyWith(Sneakers value, $Res Function(Sneakers) then) =
-      _$SneakersCopyWithImpl<$Res, Sneakers>;
+  factory $SneakersCopyWith(StoreProduct value, $Res Function(StoreProduct) then) =
+      _$SneakersCopyWithImpl<$Res, StoreProduct>;
   @useResult
   $Res call(
-      {List<String> images,
+      {String? id,
+      List<String> images,
       int? stock,
       String? name,
       String? title,
@@ -57,7 +58,7 @@ abstract class $SneakersCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SneakersCopyWithImpl<$Res, $Val extends Sneakers>
+class _$SneakersCopyWithImpl<$Res, $Val extends StoreProduct>
     implements $SneakersCopyWith<$Res> {
   _$SneakersCopyWithImpl(this._value, this._then);
 
@@ -69,6 +70,7 @@ class _$SneakersCopyWithImpl<$Res, $Val extends Sneakers>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? images = null,
     Object? stock = freezed,
     Object? name = freezed,
@@ -80,6 +82,10 @@ class _$SneakersCopyWithImpl<$Res, $Val extends Sneakers>
     Object? description = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       images: null == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
@@ -129,7 +135,8 @@ abstract class _$$SneakersImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<String> images,
+      {String? id,
+      List<String> images,
       int? stock,
       String? name,
       String? title,
@@ -151,6 +158,7 @@ class __$$SneakersImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? images = null,
     Object? stock = freezed,
     Object? name = freezed,
@@ -162,6 +170,10 @@ class __$$SneakersImplCopyWithImpl<$Res>
     Object? description = freezed,
   }) {
     return _then(_$SneakersImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       images: null == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
@@ -206,7 +218,8 @@ class __$$SneakersImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$SneakersImpl with DiagnosticableTreeMixin implements _Sneakers {
   const _$SneakersImpl(
-      {required final List<String> images,
+      {required this.id,
+      required final List<String> images,
       required this.stock,
       required this.name,
       required this.title,
@@ -220,9 +233,9 @@ class _$SneakersImpl with DiagnosticableTreeMixin implements _Sneakers {
   factory _$SneakersImpl.fromJson(Map<String, dynamic> json) =>
       _$$SneakersImplFromJson(json);
 
-// required String id,
+  @override
+  final String? id;
   final List<String> _images;
-// required String id,
   @override
   List<String> get images {
     if (_images is EqualUnmodifiableListView) return _images;
@@ -251,7 +264,7 @@ class _$SneakersImpl with DiagnosticableTreeMixin implements _Sneakers {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Sneakers(images: $images, stock: $stock, name: $name, title: $title, category: $category, oldPrice: $oldPrice, isSelected: $isSelected, price: $price, description: $description)';
+    return 'Sneakers(id: $id, images: $images, stock: $stock, name: $name, title: $title, category: $category, oldPrice: $oldPrice, isSelected: $isSelected, price: $price, description: $description)';
   }
 
   @override
@@ -259,6 +272,7 @@ class _$SneakersImpl with DiagnosticableTreeMixin implements _Sneakers {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'Sneakers'))
+      ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('images', images))
       ..add(DiagnosticsProperty('stock', stock))
       ..add(DiagnosticsProperty('name', name))
@@ -275,6 +289,7 @@ class _$SneakersImpl with DiagnosticableTreeMixin implements _Sneakers {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SneakersImpl &&
+            (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.stock, stock) || other.stock == stock) &&
             (identical(other.name, name) || other.name == name) &&
@@ -294,6 +309,7 @@ class _$SneakersImpl with DiagnosticableTreeMixin implements _Sneakers {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       const DeepCollectionEquality().hash(_images),
       stock,
       name,
@@ -318,9 +334,10 @@ class _$SneakersImpl with DiagnosticableTreeMixin implements _Sneakers {
   }
 }
 
-abstract class _Sneakers implements Sneakers {
+abstract class _Sneakers implements StoreProduct {
   const factory _Sneakers(
-      {required final List<String> images,
+      {required final String? id,
+      required final List<String> images,
       required final int? stock,
       required final String? name,
       required final String? title,
@@ -333,7 +350,9 @@ abstract class _Sneakers implements Sneakers {
   factory _Sneakers.fromJson(Map<String, dynamic> json) =
       _$SneakersImpl.fromJson;
 
-  @override // required String id,
+  @override
+  String? get id;
+  @override
   List<String> get images;
   @override
   int? get stock;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:online_shop/models/sneaker_model.dart';
 import 'package:online_shop/services/helper.dart';
 import 'package:online_shop/views/shared/appstyle.dart';
 import 'package:online_shop/views/shared/category_btn.dart';
@@ -22,9 +23,9 @@ class _ProductByCatState extends State<ProductByCat>
   late final TabController _tabController =
       TabController(length: 3, vsync: this);
 
-  late Future<List<Sneakers>> _male;
-  late Future<List<Sneakers>> _female;
-  late Future<List<Sneakers>> _kids;
+  late Future<List<StoreProduct>> _male;
+  late Future<List<StoreProduct>> _female;
+  late Future<List<StoreProduct>> _kids;
 
   void getMale() {
     _male = Helper().getMaleSneakers();
@@ -34,16 +35,16 @@ class _ProductByCatState extends State<ProductByCat>
     _female = Helper().getFemaleSneakers();
   }
 
-  void getkids() {
-    _kids = Helper().getKidsSneakers();
+  void getkids(String category) {
+    _kids = Helper().getProducts(category);
   }
 
   @override
   void initState() {
     super.initState();
-    _tabController.animateTo(widget.tabIndex, curve: Curves.easeIn);
+     _tabController.animateTo(widget.tabIndex, curve: Curves.easeIn);
     getMale();
-    getkids();
+    getkids('electronics');
     getFemale();
   }
 
@@ -62,6 +63,7 @@ class _ProductByCatState extends State<ProductByCat>
 
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       backgroundColor: const Color(0xFFE2E2E2),
       body: SizedBox(
@@ -115,13 +117,13 @@ class _ProductByCatState extends State<ProductByCat>
                     unselectedLabelColor: Colors.grey.withOpacity(0.3),
                     tabs: const [
                       Tab(
-                        text: "Electronics",
+                        text: "Men Shoes",
                       ),
                       Tab(
-                        text: "Funitures",
+                        text: "Women Shoes",
                       ),
                       Tab(
-                        text: "Vehicles",
+                        text: "Kids Shoes",
                       )
                     ],
                   ),
@@ -136,8 +138,8 @@ class _ProductByCatState extends State<ProductByCat>
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
                 child: TabBarView(controller: _tabController, children: [
-                  latestShoes(male: _kids),
-                  latestShoes(male: _kids),
+                  latestShoes(male: _male),
+                  latestShoes(male: _female),
                   latestShoes(male: _kids),
                 ]),
               ),

@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'orders/sneakers.dart';
 
-List<Sneakers> sneakersFromJson(String str) => List<Sneakers>.from(json.decode(str).map((x) => Sneakers.fromJson(x)));
+List<StoreProduct> sneakersFromJson(String str) => List<StoreProduct>.from(json.decode(str).map((x) => StoreProduct.fromJson(x)));
 
-String sneakersToJson(List<Sneakers> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String sneakersToJson(List<StoreProduct> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 /*class Sneakers {
     final String id;
